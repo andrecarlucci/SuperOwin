@@ -67,9 +67,9 @@ namespace SuperOwin {
 
         public async Task Invoke(IDictionary<string, object> env) {
             Console.WriteLine("Mw2");
-            foreach (var key in env.Keys) {
-                Console.WriteLine("{0} {1}",key, env[key]);                
-            }
+            //foreach (var key in env.Keys) {
+            //    Console.WriteLine("{0} {1}", key, env[key]);
+            //}
             await _next.Invoke(env);
         }
     }
