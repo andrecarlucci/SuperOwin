@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Owin;
@@ -21,8 +22,12 @@ namespace SuperOwin {
         public void Configuration(IAppBuilder app) {
             app.Use<Mw1>();
             app.Use<Mw2>();
-
+            app.UseErrorPage();
+            
             app.UseHandlerAsync((req, res) => {
+                if (req.Path.Contains("/fail")) {
+                    throw new Exception("ho ho ho");
+                }
                 res.ContentType = "text/plain";
                 return res.WriteAsync("Hello TDC");
             });
