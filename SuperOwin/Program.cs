@@ -21,7 +21,13 @@ namespace SuperOwin {
         public void Configuration(IAppBuilder app) {
             app.Use<Mw1>();
             app.Use<Mw2>();
-            app.UseWelcomePage();
+
+            app.UseHandlerAsync((req, res) => {
+                res.ContentType = "text/plain";
+                return res.WriteAsync("Hello TDC");
+            });
+            
+            //app.UseWelcomePage();
         }
     }
 
