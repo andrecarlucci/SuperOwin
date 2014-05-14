@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using Microsoft.Owin;
 using Owin;
 using Microsoft.Owin.Hosting;
@@ -23,7 +24,11 @@ namespace SuperOwin {
             app.Use<Mw1>();
             app.Use<Mw2>();
             app.UseErrorPage();
-            
+
+            var config = new HttpConfiguration();
+            config.Routes.MapHttpRoute("default", "api/{controller}");
+            app.UseWebApi(config);
+
             app.UseHandlerAsync((req, res) => {
                 if (req.Path.Contains("/fail")) {
                     throw new Exception("ho ho ho");
@@ -31,8 +36,12 @@ namespace SuperOwin {
                 res.ContentType = "text/plain";
                 return res.WriteAsync("Hello TDC");
             });
-            
-            //app.UseWelcomePage();
+        }
+    }
+
+    public class HomeController : ApiController {
+        public int[] GetValues() {
+            return new[] {1, 2, 3};
         }
     }
 
